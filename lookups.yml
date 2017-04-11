@@ -1,0 +1,35 @@
+---
+- hosts: cisco
+  vars:
+    contents: "{{ lookup('file', 'foo.txt') }}"
+    contents_yml: "{{ lookup('file', 'foo.yml') | from_yaml }}"
+    contents_json: "{{ lookup('file', 'foo.json') | from_json }}"
+
+  tasks:
+    - debug:
+        msg: "the value of foo.txt is {{ contents }}"
+    - debug: 
+        msg: "the value of foo.txt is {{ item }}" 
+      with_items: "{{ contents.split('\n') }}"
+
+    - debug: 
+        msg: "the value of foo.yml is {{ item }}"
+      with_items: "{{ contents_yml }}"
+
+    - debug: 
+        msg: "the value of foo.yml is {{ contents_json }}"
+
+    - debug:
+        msg: "Test Value is {{ lookup('csvfile', 'Li file=my_csv.csv delimiter=,') }}"
+      tags: csv
+
+    - debug:
+        msg: "{{ lookup('env', 'HOME') }} is an environment variable"
+      tags: env
+
+    # Probably most important lookup
+    - debug: 
+        msg: "{{ lookup('template', './lookups.j2') | from_yaml }} is a value from evaluation of this template"
+      tags: template
+
+    # Note, you can assign a lookup to a variable and have it happen dynamically
