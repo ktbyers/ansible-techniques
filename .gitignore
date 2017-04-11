@@ -87,3 +87,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+./group_vars/all/passwords.yml

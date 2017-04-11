@@ -1,0 +1,22 @@
+[all:vars]
+ansible_connection=local
+ansible_python_interpreter=/home/kbyers/VENV/ansible/bin/python
+
+[local]
+localhost ansible_connection=local
+
+[cisco]
+pynet-rtr1 ansible_host=184.105.247.70 
+pynet-rtr2 ansible_host=184.105.247.71 
+
+[cisco:vars]
+device_type=ios
+
+[arista]
+pynet-sw5 ansible_host=184.105.247.83
+pynet-sw6 ansible_host=184.105.247.84
+pynet-sw7 ansible_host=184.105.247.85
+pynet-sw8 ansible_host=184.105.247.86
+
+[arista:vars]
+device_type=eos
