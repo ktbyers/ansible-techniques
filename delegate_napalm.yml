@@ -1,0 +1,19 @@
+---
+# Core Ansible modules will work with delegate_to, but external modules will not
+# In this case, the napalm packages would have to be installed on pylab10b.twb-tech.com
+- name: NAPALM gather information on IOS
+  hosts: cisco
+  tasks:
+    - block:
+        - name: Gather information
+          napalm_get_facts:
+            hostname: "{{ ansible_host }}"
+            username: "{{ username }}"
+            password: "{{ password }}"
+            dev_os: "{{ device_type }}"
+            filter: [facts]
+          register: result
+    
+        - name: Debuggging
+          debug: var=result
+      delegate_to: pylab10b.twb-tech.com

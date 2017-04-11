@@ -89,3 +89,4 @@ ENV/
 .ropeproject
 
 ./group_vars/all/passwords.yml
+*.retry
