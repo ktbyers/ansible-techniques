@@ -20,3 +20,10 @@ pynet-sw8 ansible_host=184.105.247.86
 
 [arista:vars]
 device_type=eos
+
+[nxos]
+nxos1 ansible_host=34.205.207.77
+nxos2 ansible_host=34.205.190.103
+
+[nxos:vars]
+device_type=nxos

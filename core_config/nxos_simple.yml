@@ -1,0 +1,31 @@
+---
+- name: Test NXOS
+  hosts: nxos
+  vars:
+    creds:
+      host: "{{ ansible_host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+
+    creds_nxapi:
+      host: "{{ ansible_ssh_host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      transport: nxapi
+      use_ssl: yes
+      port: 8443
+      validate_certs: False
+
+  tasks:
+    - name: nxos facts using SSH
+      nxos_facts:
+        provider: "{{ creds }}"
+        gather_subset: 
+            - config
+
+    - name: nxos facts using NXAPI
+      nxos_facts:
+        provider: "{{ creds_nxapi }}"
+        gather_subset: 
+            - hardware
+

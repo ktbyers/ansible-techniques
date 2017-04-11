@@ -33,3 +33,7 @@
       tags: template
 
     # Note, you can assign a lookup to a variable and have it happen dynamically
+    
+    - debug:
+        msg: "{{ lookup('test_this', 'whatever1', 'whatever2') }}"
+      tags: custom_lookup
