@@ -1,0 +1,49 @@
+---
+- name: Test NXOS
+  hosts: nxos
+  vars:
+    creds:
+      host: "{{ ansible_host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+
+    creds_nxapi:
+      host: "{{ ansible_host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      transport: nxapi
+      use_ssl: yes
+      port: 8443
+      validate_certs: False
+
+    vlans:
+      - { id: "880", name: "blue" }
+      - { id: "881", name: "red" }
+      - { id: "882", name: "green" }
+      - { id: "883", name: "orange" }
+      - { id: "884", name: "brown" }
+
+  tasks:
+    - name: nxos facts using SSH
+      nxos_facts:
+        provider: "{{ creds }}"
+        gather_subset: 
+            - config
+      tags: check_conn
+
+    - name: nxos facts using NXAPI
+      nxos_facts:
+        provider: "{{ creds_nxapi }}"
+        gather_subset: 
+            - hardware
+      tags: check_conn
+
+    - name: Configure VLANs on NXOS
+      nxos_vlan:
+        provider: "{{ creds_nxapi }}"
+        vlan_id: "{{ item.id }}" 
+        name: "{{ item.name }}"
+        state: present
+        admin_state: up
+      tags: vlan_cfg
+      with_items: "{{ vlans }}"
